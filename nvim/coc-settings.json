@@ -1,0 +1,8 @@
+{
+  "typescript.preferences.importModuleSpecifier": "relaive",
+  "javascript.format.enabled":  true,
+  "tslint.autoFixOnSave": true,
+  "eslint.autoFixOnSave": true,
+  "coc.preferences.formatOnType": true,
+  "coc.preferences.formatOnInsertLeave": true
+}

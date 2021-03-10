@@ -1,0 +1,12 @@
+
+font:
+  size: 11.0  
+  family: Roboto Mono for Powerline
+  
+
+background_opacity: 0.99
+
+shell:
+  program: /bin/fish
+  args:
+  - --login
