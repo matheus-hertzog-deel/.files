@@ -1,0 +1,5 @@
+{
+    "terminal.external.linuxExec": "alacritty",
+    "terminal.integrated.shell.linux": "/usr/bin/fish",
+    "terminal.integrated.fontFamily": "Roboto Mono for Powerline"
+}
