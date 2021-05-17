@@ -106,6 +106,13 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gr <Plug>(coc-references)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <leader> rn <Plug>(coc-rename)
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Remap keys for applying codeAction to the current buffer. Ps:this will show fixing suggestions!
+nmap <leader>ac  <Plug>(coc-codeaction)
 
 " leader+hjkl to swap between splits
 nnoremap <leader>h :wincmd h<CR>
@@ -122,8 +129,6 @@ noremap <silent> <C-Right> :vertical resize -3<CR>
 noremap <silent> <C-Up> :resize +3<CR>
 noremap <silent> <C-Down> :resize -3<CR>
 
-" Remap keys for applying codeAction to the current buffer. Ps:this will show fixing suggestions!!
-nmap <leader>ac  <Plug>(coc-codeaction)
 
 nmap <leader>ag :Ag<CR> 
 nnoremap <leader>rg :Rg<CR>
@@ -190,15 +195,7 @@ set ttimeoutlen=10
 let g:airline_theme = 'codedark'
 let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#branch#enabled=1
-"let g:airline_theme = 'powerlineish'
-"let g:airline#extensions#hunks#enabled=0
 
-"if !exists('g:airline_symbols')
-  "let g:airline_symbols = {}
-"endif
-"let g:airline_symbols.space = "\ua0"
-
-"let g:airline_powerline_fonts = 1
 
 " make Ag search start from project root instead of current dir
 let g:ag_working_path_mode="r"
