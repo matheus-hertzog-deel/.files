@@ -2,5 +2,7 @@
   "typescript.preferences.importModuleSpecifier": "relative",
   "javascript.format.enabled":  true,
   "eslint.autoFixOnSave": true,
-  "coc.preferences.formatOnType": true
+  "coc.preferences.formatOnType": true,
+  "suggest.autoTrigger": "always",
+  "suggest.triggerAfterInsertEnter": true
 }
