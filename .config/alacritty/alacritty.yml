@@ -4,7 +4,7 @@ font:
   family: Roboto Mono for Powerline
   
 
-background_opacity: 0.99
+background_opacity: 0.95
 
 shell:
   program: /bin/fish

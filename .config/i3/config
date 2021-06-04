@@ -1,16 +1,26 @@
+
+# Startup applications
 exec --no-startup-id setxkbmap -model abnt2 -layout br
 exec --no-startup-id /usr/bin/flameshot
-exec --no-startup-id /home/matheus/.config/polybar/launch.sh --material
+exec --no-startup-id /home/$USER/.config/polybar/launch.sh --material
 exec --no-startup-id /opt/random-wallpaper.sh
-
-
 exec --no-startup-id alttab -fg "#d58681" -bg "#4a4a4a" -frame "#eb564d" -t 128x150 -i 127x64
+exec --no-startup-id discord
+exec --no-startup-id spotify
+exec --no-startup-id picom
+
+# Container workspaces
+for_window [class="Spotify"] move container to workspace 6
+for_window [class="Discord"] move container to workspace 6
+assign [class="Discord"] 6
+
+# Remaps
 bindsym $mod+F9 exec /opt/random-wallpaper.sh
 bindsym Print exec flameshot gui
 
 
 for_window [class=".*"] border pixel 0
-gaps inner 12
+gaps inner 8
 smart_gaps on
 
 

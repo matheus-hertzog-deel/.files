@@ -15,6 +15,7 @@ set undofile
 set incsearch
 set encoding=UTF-8
 set relativenumber
+set showmatch
 
 set smarttab
 set cindent
@@ -29,12 +30,15 @@ set wildmenu
 set wildignore+=**/node_modules/**,**/dist/**
 set hidden
 
-set splitbelow splitright
+set splitbelow 
+set splitright
+set noequalalways
 
 " always uses spaces instead of tab characters
 set expandtab
 
 set mouse=a
+set shell=/usr/bin/fish
 
 let g:coc_global_extensions = ['coc-json',
       \'coc-eslint',
@@ -48,7 +52,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'neoclide/coc.nvim', { 'branch': 'release' }
   
   " File tree navigation with icons
-  Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
+  "  Web-devicons Recommended (for coloured icons)'
+  Plug 'kyazdani42/nvim-web-devicons' 
   Plug 'kyazdani42/nvim-tree.lua'
 
   " Show buffers in tablike fashion
@@ -56,6 +61,7 @@ call plug#begin('~/.vim/plugged')
 
   " NVIM theme
   Plug 'tomasiser/vim-code-dark'
+  "Plug 'dylanaraps/wal.vim'
   
   " Comment lines command
   Plug 'preservim/nerdcommenter'
@@ -69,6 +75,7 @@ call plug#begin('~/.vim/plugged')
   
   " Git integration
   Plug 'airblade/vim-gitgutter'
+  Plug 'tpope/vim-fugitive'
 
   " Solidity syntax highlight
   Plug 'tomlion/vim-solidity'
@@ -84,15 +91,21 @@ call plug#begin('~/.vim/plugged')
   " treesitter feels slow on opening files, try this instead
   Plug 'HerringtonDarkholme/yats.vim'
   Plug 'MaxMEllon/vim-jsx-pretty'
+  
+  " Smooth scrolling
+  Plug 'psliwka/vim-smoothie'
+  " Auto clear highlighted text after search
+  Plug 'haya14busa/is.vim'
 
+  " Handle swapfiles and remove swapfiles warnings
+  Plug 'gioele/vim-autoswap'
 call plug#end()
-
 
 
 set t_Co=256
 set t_ut=
 colorscheme codedark
-
+"colorscheme wal
 let mapleader = " "
 
  " -- REMAPS --
@@ -114,6 +127,10 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " Remap keys for applying codeAction to the current buffer. Ps:this will show fixing suggestions!
 nmap <leader>ac  <Plug>(coc-codeaction)
 
@@ -124,7 +141,7 @@ nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 
 " Esc to detach from :terminal
-tnoremap <C-Esc> <C-\><C-n>
+tnoremap <Esc> <C-\><C-n>
 
 " ctrl+arrow to resize current split
 noremap <silent> <C-Left> :vertical resize +3<CR>
@@ -132,6 +149,12 @@ noremap <silent> <C-Right> :vertical resize -3<CR>
 noremap <silent> <C-Up> :resize +3<CR>
 noremap <silent> <C-Down> :resize -3<CR>
 
+" Fugitive Conflict Resolution
+" <leader>gs for opening git status window
+" use dv on unstaged files for vertical diffsplit
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap gdh :diffget //2<CR>
+nnoremap gdl :diffget //3<CR>
 
 nmap <leader>ag :Ag<CR> 
 nnoremap <leader>rg :Rg<CR>
