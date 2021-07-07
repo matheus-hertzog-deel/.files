@@ -1,7 +1,8 @@
 
 font:
-  size: 11.0  
-  family: Roboto Mono for Powerline
+  size: 10.0  
+  normal:
+    family: Hack
   
 
 background_opacity: 0.95

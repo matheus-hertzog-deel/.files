@@ -1,4 +1,5 @@
 polybar
+# must install polybar themes separatelly!
 neovim-nightly-git
 rofi
 vscode
@@ -13,4 +14,17 @@ thunar
 picom
 ranger
 ueberzug
-
+xclip
+# ttf-font-awesome
+# nerd-fonts-complete
+ttf-hack
+alsa
+alsa-utils
+alsa-driver
+pulseaudio-alsa
+xarchiver
+rar
+unrar
+pywal
+calc
+bc
