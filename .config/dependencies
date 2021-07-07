@@ -1,23 +1,25 @@
+# WM
+i3-gaps
+xorg-server
+xorg-xinit
+# Terminal
+alacritty
+fish
+# Apps
 polybar
 # must install polybar themes separatelly!
-neovim-nightly-git
+neovim-nightly-bin
 rofi
 vscode
 pavucontrol
 flameshot
-alacritty
 fd
-i3-gaps
-fish
 pywal-git
 thunar
 picom
 ranger
 ueberzug
 xclip
-# ttf-font-awesome
-# nerd-fonts-complete
-ttf-hack
 alsa
 alsa-utils
 alsa-driver
@@ -28,3 +30,9 @@ unrar
 pywal
 calc
 bc
+feh
+# Fonts
+# ttf-font-awesome
+# nerd-fonts-complete
+ttf-hack
+
