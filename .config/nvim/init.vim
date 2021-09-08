@@ -44,6 +44,7 @@ let g:coc_global_extensions = ['coc-json',
       \'coc-eslint',
       \'coc-prettier',
       \ 'coc-tsserver',
+      \ 'coc-snippets',
       \]
 
 call plug#begin('~/.vim/plugged')
@@ -62,7 +63,8 @@ call plug#begin('~/.vim/plugged')
   " NVIM theme
   Plug 'tomasiser/vim-code-dark'
   "Plug 'dylanaraps/wal.vim'
-  
+  Plug 'dracula/vim', { 'as': 'dracula' }
+
   " Comment lines command
   Plug 'preservim/nerdcommenter'
   "
@@ -81,7 +83,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'tomlion/vim-solidity'
 
   " Syntax highlight
-  "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
   " Find stuff, Note: Requires fd to be installed (pacman -S fd)
   Plug 'nvim-lua/popup.nvim'
@@ -89,8 +91,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-telescope/telescope.nvim'
 
   " treesitter feels slow on opening files, try this instead
-  Plug 'HerringtonDarkholme/yats.vim'
-  Plug 'MaxMEllon/vim-jsx-pretty'
+  "Plug 'HerringtonDarkholme/yats.vim'
+  "Plug 'MaxMEllon/vim-jsx-pretty'
   
   " Smooth scrolling
   Plug 'psliwka/vim-smoothie'
@@ -99,12 +101,14 @@ call plug#begin('~/.vim/plugged')
 
   " Handle swapfiles and remove swapfiles warnings
   Plug 'gioele/vim-autoswap'
+
 call plug#end()
 
 
 set t_Co=256
 set t_ut=
-colorscheme codedark
+"colorscheme codedark
+colorscheme dracula
 "colorscheme wal
 let mapleader = " "
 
@@ -133,6 +137,7 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " Remap keys for applying codeAction to the current buffer. Ps:this will show fixing suggestions!
 nmap <leader>ac  <Plug>(coc-codeaction)
+let g:coc_disable_transparent_cursor = 1
 
 " leader+hjkl to swap between splits
 nnoremap <leader>h :wincmd h<CR>
@@ -175,7 +180,7 @@ nnoremap <silent> gb :BufferLinePick<CR>
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-ensure_installed = {'javascript', 'typescript', 'tsx'}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+ensure_installed = {'javascript', 'typescript', 'tsx', 'jsdoc'}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
   },
