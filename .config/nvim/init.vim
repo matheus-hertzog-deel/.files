@@ -41,10 +41,11 @@ set mouse=a
 set shell=/usr/bin/fish
 
 let g:coc_global_extensions = ['coc-json',
-      \'coc-eslint',
-      \'coc-prettier',
+      \ 'coc-eslint',
+      \ 'coc-prettier',
       \ 'coc-tsserver',
       \ 'coc-snippets',
+      \ 'coc-pairs',
       \]
 
 call plug#begin('~/.vim/plugged')
@@ -70,21 +71,17 @@ call plug#begin('~/.vim/plugged')
   Plug 'dracula/vim', { 'as': 'dracula' }
 
   " Comment lines command
-  Plug 'preservim/nerdcommenter'
-  "
-  " Open brackets, commas, etc in pairs
-  Plug 'jiangmiao/auto-pairs'
+  " Plug 'preservim/nerdcommenter'
+  Plug 'tpope/vim-commentary'
+
 
   " Bottom status bar
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
   
   " Git integration
-  Plug 'airblade/vim-gitgutter'
-  Plug 'tpope/vim-fugitive'
-
-  " Solidity syntax highlight
-  Plug 'tomlion/vim-solidity'
+  "Plug 'airblade/vim-gitgutter'
+  "Plug 'tpope/vim-fugitive'
 
   " Syntax highlight
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
@@ -93,37 +90,66 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
-
-  " treesitter feels slow on opening files, try this instead
-  "Plug 'HerringtonDarkholme/yats.vim'
-  "Plug 'MaxMEllon/vim-jsx-pretty'
+  Plug 'ThePrimeagen/harpoon'
   
   " Smooth scrolling
   Plug 'psliwka/vim-smoothie'
+
   " Auto clear highlighted text after search
   Plug 'haya14busa/is.vim'
 
+  Plug 'terryma/vim-multiple-cursors'
+
   " Handle swapfiles and remove swapfiles warnings
   Plug 'gioele/vim-autoswap'
+
+  Plug 'ray-x/guihua.lua'  "lua GUI lib
+  Plug 'ray-x/sad.nvim'
+
+  " Plug 'mfussenegger/nvim-dap'
 
 call plug#end()
 
 
 set t_Co=256
 set t_ut=
-"colorscheme codedark
+" colorscheme codedark
 colorscheme dracula
 "colorscheme wal
 let mapleader = " "
 
  " -- REMAPS --
- 
+ "
+inoremap , ,<c-g>u
+inoremap . .<c-g>u
+inoremap ! !<c-g>u
+inoremap ? ?<c-g>u
+
+nnoremap <C-j> :cnext<cr>
+nnoremap <C-k> :cprev<cr>
+
+" CTRL+F to select the text to refactor
+vnoremap <C-f> "ky:Sad <C-r>k 
+
 " Find files using Telescope command-line sugar.
 nnoremap <C-p> <cmd>Telescope find_files<cr>
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+"" COC
+" Add :Format command to format current buffer.
+command! -nargs=0 Format :call CocActionAsync('format')
+
+" Add :Fold command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add :OR command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+
+nmap <leader>ai :Format<CR>
+nmap <leader>oi :OR<CR>
 
 nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gr <Plug>(coc-references)
@@ -134,6 +160,7 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 " Formatting selected code.
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
+" nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -171,10 +198,7 @@ nnoremap gdl :diffget //3<CR>
 nmap <leader>ag :Ag<CR> 
 nnoremap <leader>rg :Rg<CR>
 
-vmap ++ <plug>NERDCommenterToggle
-nmap ++ <plug>NERDCommenterToggle
-
-nnoremap <C-n> :NvimTreeToggle<CR>
+nnoremap <C-b> :NvimTreeToggle<CR>
 nnoremap <leader>r :NvimTreeRefresh<CR>
 nnoremap <leader>n :NvimTreeFindFile<CR>
 
@@ -183,22 +207,40 @@ inoremap <silent><S-Tab> <C-d>
 nnoremap <silent><C-w> :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <silent> gb :BufferLinePick<CR>
 
-  " -- PLUGIN CFG --
 
-lua <<EOF
+" Harpoon
+nnoremap <silent><leader>m :lua require("harpoon.mark").add_file()<CR>
+nnoremap <silent><C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
+" nnoremap <silent><leader>tc :lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>
+
+" nnoremap <silent><C-h> :lua require("harpoon.ui").nav_file(1)<CR>
+" nnoremap <silent><C-t> :lua require("harpoon.ui").nav_file(2)<CR>
+" nnoremap <silent><C-n> :lua require("harpoon.ui").nav_file(3)<CR>
+" nnoremap <silent><C-s> :lua require("harpoon.ui").nav_file(4)<CR>
+"
+" -- PLUGIN CFG --
+
+lua << EOF
+require'sad'.setup({
+  diff = 'delta', -- you can use `diff`, `diff-so-fancy`
+  ls_file = 'fd', -- also git ls_file
+  exact = false, -- exact match
+})
+
 require'nvim-treesitter.configs'.setup {
 ensure_installed = {'javascript', 'typescript', 'tsx', 'jsdoc'}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
   },
 }
-EOF
 
-lua << EOF
 require('telescope').setup{
   -- ...
 }
+
 EOF
+
+"require("telescope").load_extension('harpoon')
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -207,6 +249,7 @@ inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
+
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
