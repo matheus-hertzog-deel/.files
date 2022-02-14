@@ -40,13 +40,19 @@ set expandtab
 set mouse=a
 set shell=/usr/bin/fish
 
+set foldmethod=indent
+set nofoldenable
+
 let g:coc_global_extensions = ['coc-json',
-      \ 'coc-eslint',
-      \ 'coc-prettier',
-      \ 'coc-tsserver',
-      \ 'coc-snippets',
-      \ 'coc-pairs',
-      \]
+\ 'coc-eslint',
+\ 'coc-prettier',
+\ 'coc-tsserver',
+\ 'coc-snippets',
+\ 'coc-pairs',
+\ 'coc-explorer',
+\ 'coc-tabnine',
+\ 'coc-git',
+\]
 
 call plug#begin('~/.vim/plugged')
 
@@ -68,20 +74,18 @@ call plug#begin('~/.vim/plugged')
   " NVIM theme
   Plug 'tomasiser/vim-code-dark'
   "Plug 'dylanaraps/wal.vim'
-  Plug 'dracula/vim', { 'as': 'dracula' }
-
+  "Plug 'dracula/vim', { 'as': 'dracula' }
+  Plug 'Mofiqul/vscode.nvim'
   " Comment lines command
-  " Plug 'preservim/nerdcommenter'
   Plug 'tpope/vim-commentary'
-
 
   " Bottom status bar
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
   
   " Git integration
-  "Plug 'airblade/vim-gitgutter'
-  "Plug 'tpope/vim-fugitive'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'tpope/vim-fugitive'
 
   " Syntax highlight
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
@@ -91,9 +95,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'ThePrimeagen/harpoon'
-  
-  " Smooth scrolling
-  Plug 'psliwka/vim-smoothie'
 
   " Auto clear highlighted text after search
   Plug 'haya14busa/is.vim'
@@ -106,20 +107,39 @@ call plug#begin('~/.vim/plugged')
   Plug 'ray-x/guihua.lua'  "lua GUI lib
   Plug 'ray-x/sad.nvim'
 
-  " Plug 'mfussenegger/nvim-dap'
+  Plug 'tpope/vim-rhubarb'
+  Plug 'tpope/vim-surround'
 
 call plug#end()
 
+"""""""""""""""""""
+""" Themes
+"""""""""""""""""""
+let g:vscode_style = "dark"
+let g:vscode_transparency = 1
+let g:vscode_italic_comment = 1
 
 set t_Co=256
 set t_ut=
 " colorscheme codedark
-colorscheme dracula
+colorscheme vscode
 "colorscheme wal
-let mapleader = " "
 
- " -- REMAPS --
- "
+" vim-airline theme config
+set ttimeoutlen=10
+let g:airline_theme = 'codedark'
+let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#branch#enabled=1
+"""""""""""""""""""
+""" EOF Themes
+"""""""""""""""""""
+
+"""""""""""""""""""
+""" Remaps
+"""""""""""""""""""
+let mapleader = " "
+nnoremap <leader>so :source ~/.config/nvim/init.vim<cr>
+
 inoremap , ,<c-g>u
 inoremap . .<c-g>u
 inoremap ! !<c-g>u
@@ -127,26 +147,73 @@ inoremap ? ?<c-g>u
 
 nnoremap <C-j> :cnext<cr>
 nnoremap <C-k> :cprev<cr>
+"
+" leader+hjkl to swap between splits
+nnoremap <leader>h :wincmd h<CR>
+nnoremap <leader>j :wincmd j<CR>
+nnoremap <leader>k :wincmd k<CR>
+nnoremap <leader>l :wincmd l<CR>
 
+" Esc to detach from :terminal
+tnoremap <Esc> <C-\><C-n>
+
+" ctrl+arrow to resize current split
+noremap <silent> <C-Left> :vertical resize +3<CR>
+noremap <silent> <C-Right> :vertical resize -3<CR>
+noremap <silent> <C-Up> :resize +3<CR>
+noremap <silent> <C-Down> :resize -3<CR>
+
+" remove annoying Shift+arrow jumps
+nmap <S-Up> v<Up>
+nmap <S-Down> v<Down>
+nmap <S-Left> v<Left>
+nmap <S-Right> v<Right>
+vmap <S-Up> <Up>
+vmap <S-Down> <Down>
+vmap <S-Left> <Left>
+vmap <S-Right> <Right> 
+
+" make Ag search start from project root instead of current dir
+let g:ag_working_path_mode="r"
+nmap <leader>ag :Ag<CR> 
+nnoremap <leader>rg :Rg<CR>
+
+
+"""""""""""""""""""
+""" Sad
+"""""""""""""""""""
 " CTRL+F to select the text to refactor
 vnoremap <C-f> "ky:Sad <C-r>k 
+"""""""""""""""""""
+""" EOF Sad
+"""""""""""""""""""
 
-" Find files using Telescope command-line sugar.
+
+"""""""""""""""""""
+""" Telescope
+"""""""""""""""""""
 nnoremap <C-p> <cmd>Telescope find_files<cr>
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+
+"" TODO: make buffers, live_grep in buffers
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+"""""""""""""""""""
+""" EOF Telescope
+"""""""""""""""""""
 
-"" COC
-" Add :Format command to format current buffer.
-command! -nargs=0 Format :call CocActionAsync('format')
 
-" Add :Fold command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+"""""""""""""""""""
+""" COC
+"""""""""""""""""""
+nmap <space>e <Cmd>CocCommand explorer<CR>
 
-" Add :OR command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 nmap <leader>ai :Format<CR>
 nmap <leader>oi :OR<CR>
@@ -169,46 +236,40 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " Remap keys for applying codeAction to the current buffer. Ps:this will show fixing suggestions!
 nmap <leader>ac  <Plug>(coc-codeaction)
 let g:coc_disable_transparent_cursor = 1
+"""""""""""""""""""
+""" EOF COC
+"""""""""""""""""""
 
-" Search workspace symbols.
-nnoremap <silent><nowait> <space>s  :<C-u>:Ag<cr>
 
-" leader+hjkl to swap between splits
-nnoremap <leader>h :wincmd h<CR>
-nnoremap <leader>j :wincmd j<CR>
-nnoremap <leader>k :wincmd k<CR>
-nnoremap <leader>l :wincmd l<CR>
 
-" Esc to detach from :terminal
-tnoremap <Esc> <C-\><C-n>
-
-" ctrl+arrow to resize current split
-noremap <silent> <C-Left> :vertical resize +3<CR>
-noremap <silent> <C-Right> :vertical resize -3<CR>
-noremap <silent> <C-Up> :resize +3<CR>
-noremap <silent> <C-Down> :resize -3<CR>
-
-" Fugitive Conflict Resolution
+"""""""""""""""""""
+""" vim-fugitive
+"""""""""""""""""""
 " <leader>gs for opening git status window
 " use dv on unstaged files for vertical diffsplit
-nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gs :Git<CR>
 nnoremap gdh :diffget //2<CR>
 nnoremap gdl :diffget //3<CR>
+"""""""""""""""""""
+""" EOF vim-fugitive
+"""""""""""""""""""
 
-nmap <leader>ag :Ag<CR> 
-nnoremap <leader>rg :Rg<CR>
 
-nnoremap <C-b> :NvimTreeToggle<CR>
-nnoremap <leader>r :NvimTreeRefresh<CR>
-nnoremap <leader>n :NvimTreeFindFile<CR>
-
-nnoremap <silent><S-Tab> :BufferLineCycleNext<CR>
-inoremap <silent><S-Tab> <C-d>  
+"""""""""""""""""""
+""" bufferline
+"""""""""""""""""""
+nnoremap <silent><S-Tab> :BufferLineCyclePrev<cr>
+nnoremap <silent><Tab> :BufferLineCycleNext<cr>
 nnoremap <silent><C-w> :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <silent> gb :BufferLinePick<CR>
+"""""""""""""""""""
+""" EOF bufferline
+"""""""""""""""""""
 
 
-" Harpoon
+"""""""""""""""""""
+""" Harpoon
+"""""""""""""""""""
 nnoremap <silent><leader>m :lua require("harpoon.mark").add_file()<CR>
 nnoremap <silent><C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 " nnoremap <silent><leader>tc :lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>
@@ -217,9 +278,15 @@ nnoremap <silent><C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 " nnoremap <silent><C-t> :lua require("harpoon.ui").nav_file(2)<CR>
 " nnoremap <silent><C-n> :lua require("harpoon.ui").nav_file(3)<CR>
 " nnoremap <silent><C-s> :lua require("harpoon.ui").nav_file(4)<CR>
-"
-" -- PLUGIN CFG --
+"require("telescope").load_extension('harpoon')
+"""""""""""""""""""
+""" EOF Harpoon
+"""""""""""""""""""
 
+
+"""""""""""""""""""
+""" PLUGIN SETUP
+"""""""""""""""""""
 lua << EOF
 require'sad'.setup({
   diff = 'delta', -- you can use `diff`, `diff-so-fancy`
@@ -234,14 +301,44 @@ ensure_installed = {'javascript', 'typescript', 'tsx', 'jsdoc'}, -- one of "all"
   },
 }
 
+local actions = require("telescope.actions")
 require('telescope').setup{
-  -- ...
+  defaults = {
+    mappings = {
+      i = {
+        ["<esc>"] = actions.close
+      }
+    },
+  },
+  pickers = {
+    live_grep = {
+      only_sort_text = true
+    }
+  }
+}
+
+require'bufferline'.setup{
+  options = {
+    offsets = {{filetype = "NvimTree", text = "File Explorer", text_align = "left"}},
+    show_buffer_icons = true,
+    show_buffer_close_icons = true,
+    show_close_icon = true,
+    show_tab_indicators = true,
+    separator_style = "slant",
+    enforce_regular_tabs = false,
+    always_show_bufferline = true,
+  }
 }
 
 EOF
+"""""""""""""""""""
+""" EOF PLUGIN SETUP
+"""""""""""""""""""
 
-"require("telescope").load_extension('harpoon')
 
+""""""""""""""""""""""
+""" Helper Functions
+""""""""""""""""""""""
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
@@ -264,9 +361,6 @@ inoremap <silent><expr> <c-space> coc#refresh()
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -277,101 +371,15 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" Add :Format command to format current buffer.
+command! -nargs=0 Format :call CocActionAsync('format')
 
+" Add :Fold command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
-" vim-airline theme config
-set ttimeoutlen=10
-let g:airline_theme = 'codedark'
-let g:airline#extensions#tabline#enabled = 0
-let g:airline#extensions#branch#enabled=1
+" Add :OR command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
-
-" make Ag search start from project root instead of current dir
-let g:ag_working_path_mode="r"
-
-lua <<EOF
-require'bufferline'.setup{
-  options = {
-    offsets = {{filetype = "NvimTree", text = "File Explorer", text_align = "left"}},
-    show_buffer_icons = true,
-    show_buffer_close_icons = true,
-    show_close_icon = true,
-    show_tab_indicators = true,
-    separator_style = "slant",
-    enforce_regular_tabs = false,
-    always_show_bufferline = true,
-  }
-}
-EOF
-
-
-
-" NVIM Tree Setup
-lua <<EOF
--- following options are the default
-require'nvim-tree'.setup {
-  -- disables netrw completely
-  disable_netrw       = true,
-  -- hijack netrw window on startup
-  hijack_netrw        = true,
-  -- open the tree when running this setup function
-  open_on_setup       = false,
-  -- will not open on setup if the filetype is in this list
-  ignore_ft_on_setup  = {},
-  -- closes neovim automatically when the tree is the last **WINDOW** in the view
-  auto_close          = false,
-  -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
-  open_on_tab         = false,
-  -- hijacks new directory buffers when they are opened.
-  update_to_buf_dir   = {
-    -- enable the feature
-    enable = true,
-    -- allow to open the tree if it was previously closed
-    auto_open = true,
-  },
-  -- hijack the cursor in the tree to put it at the start of the filename
-  hijack_cursor       = false,
-  -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
-  update_cwd          = false,
-  -- show lsp diagnostics in the signcolumn
-  lsp_diagnostics     = false,
-  -- update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file
-  update_focused_file = {
-    -- enables the feature
-    enable      = false,
-    -- update the root directory of the tree to the one of the folder containing the file if the file is not under the current root directory
-    -- only relevant when `update_focused_file.enable` is true
-    update_cwd  = false,
-    -- list of buffer names / filetypes that will not update the cwd if the file isn't found under the current root directory
-    -- only relevant when `update_focused_file.update_cwd` is true and `update_focused_file.enable` is true
-    ignore_list = {}
-  },
-  -- configuration options for the system open command (`s` in the tree by default)
-  system_open = {
-    -- the command to run this, leaving nil should work in most cases
-    cmd  = nil,
-    -- the command arguments as a list
-    args = {}
-  },
-
-  view = {
-    -- width of the window, can be either a number (columns) or a string in `%`, for left or right side placement
-    width = 30,
-    -- height of the window, can be either a number (columns) or a string in `%`, for top or bottom side placement
-    height = 30,
-    -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
-    side = 'left',
-    -- if true the tree will resize itself after opening a file
-    auto_resize = false,
-    mappings = {
-      -- custom only false will merge the list with the default mappings
-      -- if true, it will only use your list to set the mappings
-      custom_only = false,
-      -- list of mappings to set on the tree manually
-      list = {}
-    }
-  }
-}
-EOF
+"""""""""""""""""""""""""
+""" EOF Helper Functions
+"""""""""""""""""""""""""
