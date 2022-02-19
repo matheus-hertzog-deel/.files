@@ -2,8 +2,9 @@ syntax on
 filetype plugin indent on
 
 set noerrorbells
-set tabstop=2 softtabstop=2
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+
 set expandtab
 set smartindent
 set nu
@@ -33,9 +34,6 @@ set hidden
 set splitbelow 
 set splitright
 set noequalalways
-
-" always uses spaces instead of tab characters
-set expandtab
 
 set mouse=a
 set shell=/usr/bin/fish
@@ -73,11 +71,11 @@ call plug#begin('~/.vim/plugged')
 
   " NVIM theme
   Plug 'tomasiser/vim-code-dark'
-  "Plug 'dylanaraps/wal.vim'
-  "Plug 'dracula/vim', { 'as': 'dracula' }
   Plug 'Mofiqul/vscode.nvim'
+
   " Comment lines command
-  Plug 'tpope/vim-commentary'
+  Plug 'numToStr/Comment.nvim'
+  Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
   " Bottom status bar
   Plug 'vim-airline/vim-airline'
@@ -104,13 +102,52 @@ call plug#begin('~/.vim/plugged')
   " Handle swapfiles and remove swapfiles warnings
   Plug 'gioele/vim-autoswap'
 
+  " Search and replace
   Plug 'ray-x/guihua.lua'  "lua GUI lib
   Plug 'ray-x/sad.nvim'
 
+  " Utils
   Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-surround'
+  Plug 'RRethy/vim-illuminate'
+  Plug 'windwp/nvim-ts-autotag'
+  Plug 'glepnir/dashboard-nvim'
 
 call plug#end()
+
+
+"""""""""""""""""""
+""" Dashboard
+"""""""""""""""""""
+let g:dashboard_default_executive = 'telescope'
+let g:dashboard_custom_header =[
+    \'                                   ',
+    \'                                   ',
+    \'                                   ',
+    \'          ▀████▀▄▄              ▄█ ',
+    \'            █▀    ▀▀▄▄▄▄▄    ▄▄▀▀█ ',
+    \'    ▄        █          ▀▀▀▀▄  ▄▀  ',
+    \'   ▄▀ ▀▄      ▀▄              ▀▄▀  ',
+    \'  ▄▀    █     █▀   ▄█▀▄      ▄█    ',
+    \'  ▀▄     ▀▄  █     ▀██▀     ██▄█   ',
+    \'   ▀▄    ▄▀ █   ▄██▄   ▄  ▄  ▀▀ █  ',
+    \'    █  ▄▀  █    ▀██▀    ▀▀ ▀▀  ▄▀  ',
+    \'   █   █  █      ▄▄           ▄▀   ',
+    \'                                   ',
+    \'                                   ',
+    \]
+let g:dashboard_custom_shortcut={
+\ 'last_session'       : '',
+\ 'find_history'       : '',
+\ 'find_file'          : '',
+\ 'new_file'           : '',
+\ 'change_colorscheme' : '',
+\ 'find_word'          : '',
+\ 'book_marks'         : '',
+\ }
+"""""""""""""""""""
+""" EOF Dashboard
+"""""""""""""""""""
 
 """""""""""""""""""
 """ Themes
@@ -177,6 +214,7 @@ vmap <S-Right> <Right>
 let g:ag_working_path_mode="r"
 nmap <leader>ag :Ag<CR> 
 nnoremap <leader>rg :Rg<CR>
+
 
 
 """""""""""""""""""
@@ -328,6 +366,50 @@ require'bufferline'.setup{
     enforce_regular_tabs = false,
     always_show_bufferline = true,
   }
+}
+
+require'gitsigns'.setup {
+  signs = {
+    add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+    change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+  },
+  signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
+  numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  watch_gitdir = {
+    interval = 1000,
+    follow_files = true,
+  },
+  attach_to_untracked = true,
+  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+    delay = 1000,
+    ignore_whitespace = false,
+  },
+  current_line_blame_formatter_opts = {
+    relative_time = false,
+  },
+  sign_priority = 6,
+  update_debounce = 100,
+  status_formatter = nil, -- Use default
+  max_file_length = 40000,
+  preview_config = {
+    -- Options passed to nvim_open_win
+    border = "rounded",
+    style = "minimal",
+    relative = "cursor",
+    row = 0,
+    col = 1,
+  },
+  yadm = {
+    enable = false,
+  },
 }
 
 EOF
