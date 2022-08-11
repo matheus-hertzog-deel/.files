@@ -1,3 +1,4 @@
+
 -- init.lua
 
 -- vim.g.nvim_tree_icons = {
@@ -30,7 +31,6 @@ require'nvim-tree'.setup {
   hijack_netrw         = true,
   open_on_setup        = false,
   ignore_ft_on_setup   = {},
-  auto_close           = true,
   auto_reload_on_write = true,
   open_on_tab          = false,
   hijack_cursor        = false,
@@ -72,7 +72,6 @@ require'nvim-tree'.setup {
     height = 30,
     hide_root_folder = false,
     side = 'left',
-    auto_resize = false,
     mappings = {
       custom_only = false,
       list = {}
@@ -90,7 +89,14 @@ require'nvim-tree'.setup {
       global = false,
     },
     open_file = {
-      quit_on_open = true,
+      quit_on_open = false,
     }
   }
 }
+
+vim.cmd [[
+  autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
+]]
+
+vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', {})
+

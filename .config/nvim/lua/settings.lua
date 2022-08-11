@@ -9,20 +9,20 @@ o.relativenumber = true
 o.number = true          -- show current line number
 
 -- Tabs
-o.expandtab = true       -- expandtabs turn tabs into spaces
+o.expandtab = true       -- expandtab turn tabs into spaces
 o.shiftwidth=4
 o.tabstop=4
+o.softtabstop=4
 o.smarttab = true
 
 -- Indentation
 o.autoindent = true      -- copies current indentation when creating new lines
 o.smartindent = true
-o.wrap = true
+o.wrap = false
 
 
 o.smartcase = true
 o.smartindent = true
-o.smarttab = true
 
 -- Swapfiles && backup
 o.backup = false
@@ -43,7 +43,7 @@ o.clipboard = 'unnamedplus'
 
 o.hidden = true
 
-o.splitbelow  = true
+o.splitbelow = true
 o.splitright = true
 o.equalalways = false
 
@@ -51,7 +51,7 @@ o.equalalways = false
 o.scrolloff = 8
 
 o.mouse = 'a'
-o.shell = '/usr/bin/fish'
+o.shell = 'fish'
 
 
 o.completeopt = { 'menuone', 'noselect' }
@@ -62,15 +62,24 @@ o.signcolumn = 'yes'
 
 o.guifont = 'monospace:h17'
 
+g.guitablabel='%N %t %M'
+
 
 vim.g.cursorhold_updatetime = 100
 
+
+vim.g.copilot_no_tab_map = true
+
+
+
+
 -- Folding
-o.syntax = 'on'
-o.foldenable = true
-o.foldmethod = 'expr'
-o.foldexpr = 'nvim_treesitter#foldexpr()'
-o.foldlevel = 99
+-- o.syntax = 'on'
+-- o.foldenable = true
+vim.wo.foldcolumn = '0'
+vim.wo.foldlevel = 99 
+vim.wo.foldenable = true
+
 
 -- Native highlight yanked
 vim.cmd([[
@@ -78,4 +87,18 @@ augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
 augroup END
+]])
+
+-- Toggle :Git -- vim.fugitive
+vim.cmd([[
+  function! ToggleGStatus()
+      if buflisted(bufname('.git/index'))
+          bd .git/index
+      else
+          Git
+          resize 15
+      endif
+  endfunction
+  command ToggleGStatus :call ToggleGStatus()
+  nmap <F3> :ToggleGStatus<CR>
 ]])

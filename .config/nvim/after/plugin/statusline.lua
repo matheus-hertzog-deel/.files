@@ -1,12 +1,12 @@
-lualine = require("lualine")
+local lualine = require("lualine")
 
- gps = require("nvim-gps")
+local gps = require("nvim-gps")
 
 local hide_in_width = function()
   return vim.fn.winwidth(0) > 80
 end
 
-local icons = require "config.icons"
+local icons = require("icons")
 
 local diagnostics = {
   "diagnostics",

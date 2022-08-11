@@ -39,3 +39,13 @@ require('gitsigns').setup {
     enable = false
   },
 }
+
+local function keymap (mode, cmd, action, opts)
+  opts = opts or { noremap = true, silent = false }
+  vim.api.nvim_set_keymap(mode, cmd, action, opts)
+end
+
+keymap('n', ']c', '<cmd>Gitsigns next_hunk<CR>')
+keymap('n', '[c', '<cmd>Gitsigns prev_hunk<CR>')
+keymap('n', '<leader>hb', ':Gitsigns toggle_current_line_blame<CR>')
+
