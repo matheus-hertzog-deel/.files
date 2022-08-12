@@ -36,7 +36,9 @@ return require('packer').startup(function(use)
   use "RRethy/vim-illuminate"
 
   use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
-  use "jose-elias-alvarez/nvim-lsp-ts-utils"
+  use 'jose-elias-alvarez/typescript.nvim' -- Typescript LSP server with extra hooks
+  use 'MunifTanjim/prettier.nvim' -- Prettier plugin for Neovim's built-in LSP client
+
   use 'RishabhRD/popfix'
   use 'RishabhRD/nvim-lsputils'
   use 'onsails/lspkind-nvim' -- vscode-like pictograms

@@ -10,6 +10,7 @@ keymap('i', '<C-c>', '<Esc>`^')
 keymap('n', '<C-c>', '<Esc>')
 
 keymap('n', '<C-a>', 'ggVG')
+keymap('n', '<C-s>', ':w<CR>')
 
 keymap('v', '/', "<ESC>/\\%V" ) -- search inside select visual lines
 
