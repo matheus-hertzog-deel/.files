@@ -1,0 +1,215 @@
+{
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.addMissingImports": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "projectManager.git.baseFolders": [
+    "$home/deel"
+  ],
+  "projectManager.sortList": "Recent",
+  "editor.formatOnSave": true,
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.tabSize": 5,
+  "editor.minimap.enabled": false,
+  "editor.inlineSuggest.enabled": true,
+  // "editor.fontFamily": "Hack",
+  "editor.mouseWheelZoom": true,
+  // "editor.fontSize": 16,
+  "editor.lineNumbers": "relative",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorSurroundingLines": 8,
+  "editor.smoothScrolling": true,
+  "editor.stickyScroll.enabled": true,
+  "editor.suggest.insertMode": "replace",
+  "errorLens.fontStyleItalic": true,
+  "gitlens.currentLine.enabled": false,
+  "gitlens.codeLens.authors.enabled": false,
+  "gitlens.codeLens.recentChange.enabled": false,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "vim.foldfix": true,
+  "vim.highlightedyank.color": "rgba(233, 97, 89, 0.7)",
+  "vim.highlightedyank.enable": true,
+  "vim.highlightedyank.textColor": "white",
+  "vim.hlsearch": true,
+  "vim.leader": "<space>",
+  "vim.useSystemClipboard": true,
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "leader",
+        "r"
+      ],
+      "commands": [
+        "editor.action.rename"
+      ]
+    },
+    {
+      "before": [
+        "leader",
+        "w"
+      ],
+      "commands": [
+        ":w!"
+      ]
+    },
+    {
+      "before": [
+        "leader",
+        "q"
+      ],
+      "commands": [
+        ":q!"
+      ]
+    },
+    {
+      "before": [
+        "leader",
+        "x"
+      ],
+      "commands": [
+        ":x!"
+      ]
+    },
+    {
+      "after": [
+        "g",
+        "g",
+        "V",
+        "G"
+      ],
+      "before": [
+        "<c-a>"
+      ]
+    },
+    {
+      "before": [
+        "K"
+      ],
+      "commands": [
+        "editor.action.showHover"
+      ]
+    },
+    {
+      "before": [
+        "leader",
+        "k"
+      ],
+      "commands": [
+        "editor.action.showHover"
+      ]
+    },
+    {
+      "before": [
+        "[",
+        "d"
+      ],
+      "commands": [
+        "editor.action.marker.prev"
+      ]
+    },
+    {
+      "before": [
+        "]",
+        "d"
+      ],
+      "commands": [
+        "editor.action.marker.next"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "c",
+        "a"
+      ],
+      "commands": [
+        "editor.action.quickFix"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "a",
+        "b"
+      ],
+      "commands": [
+        "workbench.action.toggleActivityBarVisibility"
+      ]
+    },
+    {
+      "after": [
+        "^"
+      ],
+      "before": [
+        "H"
+      ]
+    },
+    {
+      "after": [
+        "$"
+      ],
+      "before": [
+        "L"
+      ]
+    },
+  ],
+  "vim.visualModeKeyBindings": [
+    {
+      "after": [
+        "^"
+      ],
+      "before": [
+        "H"
+      ]
+    },
+    {
+      "after": [
+        "$"
+      ],
+      "before": [
+        "L"
+      ]
+    },
+  ],
+  "zenMode.hideLineNumbers": false,
+  "workbench.colorTheme": "Everforest Dark",
+  "workbench.statusBar.visible": true,
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "editor.multiCursorModifier": "ctrlCmd",
+  "terminal.integrated.enableImages": true,
+  "terminal.integrated.shellIntegration.suggestEnabled": true,
+  "terminal.integrated.profiles.osx": {
+    "fish": {
+      "path": "/opt/homebrew/bin/fish", // overriding
+      "args": [
+        "-l"
+      ]
+    }
+  },
+  "terminal.integrated.defaultProfile.osx": "fish",
+  "myRedis.list": "Giger portforward;Localhost",
+  "myRedis.address": "128.0.0.1:4000;127.0.0.1:6379",
+  "myRedis.password": ";"
+}
