@@ -1,5 +1,3 @@
-require('settings')
-require('mappings')
+require('sets')
+require('maps')
 require('plugins')
-require('theme')
-require('config')
